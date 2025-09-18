@@ -1,0 +1,17 @@
+#Extension pour l'extraction de caractéristiques avec pyradiomics
+
+#os
+#sys
+python-csv
+#ntpath
+nilearn
+numpy
+pandas
+nibabel
+glob2
+SimpleITK
+nibabel
+pyradiomics
+tqdm 
+
+
