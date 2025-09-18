@@ -1,47 +1,136 @@
-# Stage-M2-CIC-Radiomic
-Dépots de l'ensemble des traveaux de recherche de Master
+# Radiomic Analysis Applied to Prostate MRI
 
-Ce dépot correspond à l'ensemble des étapes de la radiomic. Nous auront
+This repository contains all the research work carried out as part of my research project, focusing on radiomic analysis applied to prostate MRI.
 
-+ En premier point nous auront l'agorithme d'extraction des caractéristique radiomic qui est dans le notebook ADC_T2_Features_Extractions.ipynb
+##  Table of Contents
 
-+ En deuxième lieu nous entrainons nos modèles de classification sur les données extrait à partir du notebook T2_ProstateX_Model_Training.ipynb et 
-+ le ADC_ProstateX_Model_Training
+- [Project Content](#project-content)
+- [Dataset](#dataset)
+- [Folder Structure](#folder-structure)
+- [Installation and Prerequisites](#installation-and-prerequisites)
+- [Usage](#usage)
 
-+ En troisième lieu nous procédont graphes statistique dans le notebook statistic analysis.ipynb
+##  Project Content
 
-1 - Extraction des features Radiomic
-Notre Datase lesion contient les images IRM de proste de pondération de diffusion ADC et les séquences de pondération T2 , chacun avec son masque 
-permettant de segmenter uniquement la partie tumorale.
+The project follows the main steps of a complete radiomic pipeline:
 
-# Prérequis
-* Créer un environnement virtuel
-* Avoir un notebook jupyter déjà installer
-* Télécharger les données à partir du lien drive associé à se dépôt (lien drive pour les données de IRM de la prostate.dotx)
-* Mettre le dataset dans télécharger dans le dossier cloner
-* Déziper le le dataset lesion.zip
-* Installer les bibliothèque du fichier requierment.txt (Ce fichier ne précise pas de version car seul les versions recentes seront pris n charge)
+### 1. Radiomic Feature Extraction
+** Notebook:** `ADC_T2_Features_Extractions.ipynb`
 
-Voivi l'arborescence des dossier pour la sauvegarde:
+From diffusion MRI (ADC) and T2-weighted sequences, radiomic features are extracted for each segmented lesion (masks provided).
 
-                                !--T2
-            !------------Image--!  # Comporte les images IRM de la prostate                
-            !                   !--ADC
-            !------------Patient_ID   # Dans ce dossier nous alons récupérer les indexes les patients en 
-            !                           fonction du Grade de Gleason.
-            !                                   !--------GG1
-            !                                   !--------GG2   ( Dans le dossier Img_msk_resambled nous normalisons les image
-    lesions !-------------Img_msk_resambled-----!--------GG3     en fontion de leurs masques en fonction de leurs grade de Gleason 
-            !                                   !--------GG4     avant de procéder à l'extraction ) 
-            !                                   !--------GG5
-            !
-            !-----------ADC_T2_Images_Analyses # Nous récuperons dans ce dossier les feautures radiomic en fonction du grade de Gleason
-            !
-            !             !--T2
-            !-------------Masks   #Comporte les Masks de chaque image
-                          !--ADC
-                          
-            
-NB: Tous ses dossiers son déjà créer et existent déjà dans le zip du dossier lesions. Mettre le fichier notebook         
-    ADC_T2_Features_Extractions.ipynb dans le même repertoire que le dossier lesion après le dézipage. 
-    Vous n'aurez qu'à cloner le projet , activer votre environnement virtuel puis installer les librairies du fichier requierement.txt
+### 2. Classification Model Training
+** Notebooks:**
+- `T2_ProstateX_Model_Training.ipynb`
+- `ADC_ProstateX_Model_Training.ipynb`
+
+**Objective:** Train and evaluate classification models on the extracted features.
+
+### 3. Statistical Analysis and Visualizations
+** Notebook:** `statistic_analysis.ipynb`
+
+Generation of graphs and descriptive statistics to explore feature distribution according to Gleason grades.
+
+##  Dataset
+
+The `lesions` dataset contains:
+
+### Prostate MRI Images
+- **T2**: T2-weighted images
+- **ADC**: Diffusion images
+
+### Annotations
+- **Masks**: Segmentations of tumor regions
+- **Organization by Gleason grade (GG1–GG5)**
+
+> **Note:** Before extraction, images are normalized based on their masks in the `Img_msk_resampled` folder.
+
+##  Folder Structure
+
+```
+lesions/
+│
+├── T2/                      # T2-weighted MRI images
+├── ADC/                     # ADC MRI images
+├── Patient_ID/              # Patient indexing by Gleason grade
+│   ├── GG1/
+│   ├── GG2/
+│   ├── GG3/
+│   ├── GG4/
+│   └── GG5/
+│
+├── Img_msk_resampled/       # Images normalized by masks
+│   ├── GG1/
+│   ├── GG2/
+│   ├── GG3/
+│   ├── GG4/
+│   └── GG5/
+│
+├── ADC_T2_Images_Analyses/  # Extracted radiomic features
+│
+└── Masks/                   # Masks for each image (T2 and ADC)
+    ├── T2/
+    └── ADC/
+```
+
+## ⚙️ Installation and Prerequisites
+
+### Installation Steps
+
+1. **Create a virtual environment**
+   ```bash
+   python -m venv radiomics_env
+   source radiomics_env/bin/activate  # Linux/Mac
+   # or
+   radiomics_env\Scripts\activate     # Windows
+   ```
+
+2. **Install Jupyter Notebook**
+   ```bash
+   pip install jupyter
+   ```
+
+3. **Download the data**
+   - Download data from the associated Google Drive link
+   - Unzip the `lesions.zip` file in the cloned folder
+
+4. **File organization**
+   - Place the `ADC_T2_Features_Extractions.ipynb` notebook in the same directory as the `lesions` folder
+
+5. **Install libraries**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Main Dependencies
+
+- `pyradiomics`
+- `SimpleITK`
+- `numpy`
+- `pandas`
+- `scikit-learn`
+- `matplotlib`
+- `seaborn`
+- `jupyter`
+
+##  Usage
+
+1. **Launch Jupyter Notebook**
+   ```bash
+   jupyter notebook
+   ```
+
+2. **Execute notebooks in the following order:**
+   1. `ADC_T2_Features_Extractions.ipynb` - Feature extraction
+   2. `T2_ProstateX_Model_Training.ipynb` or `ADC_ProstateX_Model_Training.ipynb` - Model training
+   3. `statistic_analysis.ipynb` - Statistical analysis and visualizations
+
+##  Results
+
+Analysis results are stored in the `ADC_T2_Images_Analyses/` folder and include:
+- Extracted radiomic features
+- Model performance metrics
+- Statistical visualizations
+
+
+*This project is part of research on radiomic analysis applied to prostate cancer diagnosis using MRI.*
